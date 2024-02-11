@@ -1,0 +1,62 @@
+body {
+    margin-top: 0px;
+    /* Rimuove il margine sopra la navbar */
+    width: 100%;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    height: 100%;
+    /* Impostare un'altezza fissa */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    flex-grow: 1;
+    /* Far espandere il contenuto */
+}
+
+.card-img-top {
+    max-height: 200px;
+    /* Impostare un'altezza massima per l'immagine */
+    object-fit: cover;
+    /* Mantenere proporzioni e tagliare */
+}
+
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#cartContainer {
+    position: sticky;
+    top: 70px;
+    /* L'altezza della navbar */
+    padding: 20px;
+    background-color: rgba(248, 249, 250, 0.5);
+    /* Aggiunta di un'opacità al colore di sfondo */
+    border-radius: 10px;
+    z-index: 999;
+    /* Assicura che il carrello sia in primo piano */
+}
+
+#cartItems {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.card-price {
+    font-size: 18px;
+    color: green;
+
+    border-top: 2px solid #007bff;
+    /* Colore azzurro per il prezzo */
+
+}
+
+#avatar {
+    width: 50px;
+    border-radius: 50px 50px 50px 50px;
+}

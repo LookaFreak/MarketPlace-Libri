@@ -75,6 +75,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Evento click sul pulsante "Empty Cart"
     emptyCartBtn.addEventListener('click', () => {
+        const addToCartBtns = document.querySelectorAll('.addToCartBtn');
+        addToCartBtns.forEach(btn => {
+            btn.disabled = false;
+            btn.textContent = 'Add to Cart';
+        });
         cart = [];
         updateCartCount();
         showCartItems();

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let cart = [];
     let books = [];
 
+    // Funzione per mostrare gli elementi nel carrello
     function showCartItems() {
         cartItems.innerHTML = '';
         cart.forEach((item, index) => {
@@ -21,10 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Funzione per aggiornare il conteggio del carrello
     function updateCartCount() {
         document.getElementById('cartTotal').textContent = `Total: ${cart.length}`;
     }
 
+    // Funzione per renderizzare i libri nella lista
     function renderBooks(books) {
         bookList.innerHTML = '';
         books.forEach(book => {
@@ -34,9 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         <img src="${book.img}" class="card-img-top" alt="${book.title}">
                         <div class="card-body">
                             <h5 class="card-title">${book.title}</h5>
-                            <hr class="my-1"> <!-- Aggiunta della riga per separare il titolo e il prezzo -->
                             <p class="card-price">${book.price} €</p>
-                            <button class="btn btn-primary addToCartBtn" data-book='${JSON.stringify(book)}'>Add to Cart</button>
+                            <button class="btn btn-success addToCartBtn" data-book='${JSON.stringify(book)}'>Add to Cart</button>
+                            <button class="btn btn-secondary skipBtn">Skip</button>
+                            <button class="btn btn-info viewDetailsBtn my-1" data-id="${book.asin}">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -45,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Funzione per aggiungere un libro al carrello
     function addToCart(book) {
         const existingBook = cart.find(item => item.id === book.asin);
         if (!existingBook) {
@@ -53,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Funzione per rimuovere un libro dal carrello
     function removeFromCart(index) {
         const removedBook = cart.splice(index, 1)[0];
         updateCartCount();
@@ -67,18 +73,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Evento click sul pulsante "Empty Cart"
     emptyCartBtn.addEventListener('click', () => {
         cart = [];
         updateCartCount();
         showCartItems();
     });
 
+    // Evento input sulla barra di ricerca
     searchInput.addEventListener('input', function () {
         const searchTerm = searchInput.value.toLowerCase();
         const filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchTerm));
         renderBooks(filteredBooks);
     });
 
+    // Evento click sul pulsante "Add to Cart"
     bookList.addEventListener('click', function (event) {
         if (event.target.classList.contains('addToCartBtn')) {
             const bookData = JSON.parse(event.target.getAttribute('data-book'));
@@ -89,6 +98,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Evento click sul pulsante "Skip"
+    bookList.addEventListener('click', function (event) {
+        if (event.target.classList.contains('skipBtn')) {
+            const card = event.target.closest('.card');
+            card.style.display = 'none'; // Nascondi la card
+        }
+    });
+
+    // Evento click sul pulsante "View Details"
+    bookList.addEventListener('click', function (event) {
+        if (event.target.classList.contains('viewDetailsBtn')) {
+            const bookId = event.target.getAttribute('data-id');
+            window.location.href = `dettagli.html?id=${bookId}`; // Reindirizza alla pagina dei dettagli con l'ID del libro
+        }
+    });
+
+    // Fetch dei libri
     fetch('https://striveschool-api.herokuapp.com/books')
         .then(response => response.json())
         .then(data => {
